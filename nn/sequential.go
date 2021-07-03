@@ -3,8 +3,8 @@ package nn
 // A sequential layer used to chain multiple layers and closures.
 
 import (
-	"github.com/sugarme/gotch"
-	ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch"
+	ts "github.com/zonghaowang/gotch/tensor"
 	// "reflect"
 )
 

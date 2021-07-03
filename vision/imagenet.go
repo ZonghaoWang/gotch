@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/sugarme/gotch"
-	ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // Helper functions for ImageNet like datasets.

@@ -701,8 +701,8 @@ let write_wrapper funcs filename =
       pm "import(\n" ;
       pm "  \"unsafe\"\n" ;
       pm "\n" ;
-      pm "  \"github.com/sugarme/gotch\"\n" ;
-      pm "  lib \"github.com/sugarme/gotch/libtch\"\n" ;
+      pm "  \"github.com/zonghaowang/gotch\"\n" ;
+      pm "  lib \"github.com/zonghaowang/gotch/libtch\"\n" ;
       pm ")" ;
       pm "\n\n" ;
       Map.iteri funcs ~f:(fun ~key:exported_name ~data:func ->
@@ -818,7 +818,7 @@ let write_must_wrapper funcs filename =
       pm "import(\n" ;
       pm "  \"log\"\n" ;
       pm "\n" ;
-      pm "  \"github.com/sugarme/gotch\"\n" ;
+      pm "  \"github.com/zonghaowang/gotch\"\n" ;
       pm ")" ;
       pm "\n\n" ;
       Map.iteri funcs ~f:(fun ~key:exported_name ~data:func ->

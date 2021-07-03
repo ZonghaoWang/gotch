@@ -1,6 +1,6 @@
 # Linear Regression, NN, and CNN on MNIST dataset
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sugarme/nb/blob/master/mnist/mnist.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zonghaowang/nb/blob/master/mnist/mnist.ipynb)
 
 ## MNIST
 

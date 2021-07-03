@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/sugarme/gotch"
+	"github.com/zonghaowang/gotch"
 )
 
 // Iter2 is an iterator over a pair of tensors which have the same first dimension

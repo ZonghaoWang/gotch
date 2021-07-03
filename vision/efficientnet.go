@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/sugarme/gotch/nn"
-	ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch/nn"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 const (

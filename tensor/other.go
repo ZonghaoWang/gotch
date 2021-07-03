@@ -3,7 +3,7 @@ package tensor
 // Other tensor methods
 
 import (
-	"github.com/sugarme/gotch"
+	"github.com/zonghaowang/gotch"
 )
 
 // CrossEntropyForLogits computes the cross-entropy loss based on some logits and targets.

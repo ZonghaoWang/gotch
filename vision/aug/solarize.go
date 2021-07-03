@@ -1,7 +1,7 @@
 package aug
 
 import (
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // RandomSolarize solarizes the image randomly with a given probability by inverting all pixel

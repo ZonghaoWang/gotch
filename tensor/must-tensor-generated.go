@@ -5,7 +5,7 @@ package tensor
 import(
   "log"
 
-  "github.com/sugarme/gotch"
+  "github.com/zonghaowang/gotch"
 )
 
 

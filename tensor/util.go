@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	gotch "github.com/sugarme/gotch"
+	gotch "github.com/zonghaowang/gotch"
 )
 
 // nativeEndian is a ByteOrder for local platform.

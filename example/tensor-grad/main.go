@@ -4,7 +4,7 @@ import (
 	"fmt"
 	// "log"
 
-	"github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch/tensor"
 )
 
 func main() {

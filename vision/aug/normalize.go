@@ -1,7 +1,7 @@
 package aug
 
 import (
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // Normalize normalizes a tensor image with mean and standard deviation.

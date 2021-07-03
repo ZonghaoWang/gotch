@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // Optimizer is a struct object to run gradient descent.

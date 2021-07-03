@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sugarme/gotch"
-	"github.com/sugarme/gotch/vision"
-	"github.com/sugarme/gotch/vision/aug"
-	// ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch"
+	"github.com/zonghaowang/gotch/vision"
+	"github.com/zonghaowang/gotch/vision/aug"
+	// ts "github.com/zonghaowang/gotch/tensor"
 )
 
 func main() {

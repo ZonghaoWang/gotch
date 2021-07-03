@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/sugarme/gotch"
-	"github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch"
+	"github.com/zonghaowang/gotch/tensor"
 )
 
 func main() {

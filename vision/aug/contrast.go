@@ -1,7 +1,7 @@
 package aug
 
 import (
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // RandomAutocontrast autocontrasts the pixels of the given image randomly with a given probability.

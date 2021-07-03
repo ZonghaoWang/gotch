@@ -13,8 +13,8 @@ import (
 	"reflect"
 	"unsafe"
 
-	gotch "github.com/sugarme/gotch"
-	lib "github.com/sugarme/gotch/libtch"
+	gotch "github.com/zonghaowang/gotch"
+	lib "github.com/zonghaowang/gotch/libtch"
 )
 
 type Tensor struct {

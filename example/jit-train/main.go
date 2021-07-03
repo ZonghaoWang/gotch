@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sugarme/gotch"
-	"github.com/sugarme/gotch/nn"
-	ts "github.com/sugarme/gotch/tensor"
-	"github.com/sugarme/gotch/vision"
+	"github.com/zonghaowang/gotch"
+	"github.com/zonghaowang/gotch/nn"
+	ts "github.com/zonghaowang/gotch/tensor"
+	"github.com/zonghaowang/gotch/vision"
 )
 
 var (

@@ -1,8 +1,8 @@
 package vision
 
 import (
-	"github.com/sugarme/gotch/nn"
-	ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch/nn"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // AlexNet implementation

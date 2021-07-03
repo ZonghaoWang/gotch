@@ -41,6 +41,6 @@ script:
   - export LIBRARY_PATH=${LIBTORCH}/lib
   - export CPATH=${LIBTORCH}/lib:${LIBTORCH}/include:${LIBTORCH}/include/torch/csrc:${LIBTORCH}/include/torch/csrc/api/include
   - export LD_LIBRARY_PATH=${LIBTORCH}/lib
-  - go test -v github.com/sugarme/gotch/tensor
-  - go test -v github.com/sugarme/gotch/nn
-  - go test -v github.com/sugarme/gotch/vision
+  - go test -v github.com/zonghaowang/gotch/tensor
+  - go test -v github.com/zonghaowang/gotch/nn
+  - go test -v github.com/zonghaowang/gotch/vision

@@ -1,4 +1,4 @@
-# YOLO model <a href="https://colab.research.google.com/github/sugarme/nb/blob/master/yolo/yolo.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+# YOLO model <a href="https://colab.research.google.com/github/zonghaowang/nb/blob/master/yolo/yolo.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
 This is an example of implementing YOLO v3 model. 

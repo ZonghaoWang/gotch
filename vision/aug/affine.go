@@ -1,8 +1,8 @@
 package aug
 
 import (
-	"github.com/sugarme/gotch"
-	ts "github.com/sugarme/gotch/tensor"
+	"github.com/zonghaowang/gotch"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 // RandomAffine is transformation of the image keeping center invariant.

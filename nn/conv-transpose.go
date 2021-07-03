@@ -5,7 +5,7 @@ package nn
 import (
 	"log"
 
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 type ConvTranspose1DConfig struct {

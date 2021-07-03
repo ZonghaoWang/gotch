@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	ts "github.com/sugarme/gotch/tensor"
+	ts "github.com/zonghaowang/gotch/tensor"
 )
 
 func roundTrip(v interface{}, t *testing.T) {

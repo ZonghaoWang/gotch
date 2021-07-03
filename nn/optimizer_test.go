@@ -7,9 +7,9 @@ package nn_test
  *   "log"
  *   "testing"
  *
- *   "github.com/sugarme/gotch"
- *   "github.com/sugarme/gotch/nn"
- *   ts "github.com/sugarme/gotch/tensor"
+ *   "github.com/zonghaowang/gotch"
+ *   "github.com/zonghaowang/gotch/nn"
+ *   ts "github.com/zonghaowang/gotch/tensor"
  * )
  *
  * func TestOptimizer(t *testing.T) {

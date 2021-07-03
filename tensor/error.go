@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"unsafe"
 
-	lib "github.com/sugarme/gotch/libtch"
+	lib "github.com/zonghaowang/gotch/libtch"
 )
 
 // ptrToString check C pointer for null. If not null, get value

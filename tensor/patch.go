@@ -7,7 +7,7 @@ import (
 	"log"
 	"unsafe"
 
-	lib "github.com/sugarme/gotch/libtch"
+	lib "github.com/zonghaowang/gotch/libtch"
 )
 
 // NOTE. This is a temporarily patched to make it run.
