@@ -16,7 +16,7 @@ func (a *Adadelta) Step() {
 		rhoMB1 = ts.FloatScalar(1 - a.Rho)
 
 	})
-	a.BaseOptimizer.Step()
+	a.BaseOptimizer.Step(a.AdadeltaConfig)
 	for name, t := range a.TrainedTensors {
 		grad := t.Tensor.MustGrad(false)
 		defer grad.MustDrop()
@@ -27,19 +27,17 @@ func (a *Adadelta) Step() {
 		}
 		squareAvg.MustMul1_(rho)
 		gradScope := grad.MustMul1(rhoMB1, false)
-		defer gradScope.MustDrop()
 		squareAvg.MustAddcmul_(grad, gradScope)
-		std := squareAvg.MustAdd1(eps, false)
-		std.MustSqrt_()
-		delta := accDelta.MustAdd1(eps, false)
-		delta.MustSqrt_()
-		delta.MustDiv_(std)
-		delta.MustMul_(grad)
-		t.Tensor.MustAddWithAlpha_(delta, -a.LR)
+		std := squareAvg.MustAdd1(eps, false).MustSqrt(true)
+		delta := accDelta.MustAdd1(eps, false).MustSqrt(true).MustDiv(std, true).MustMul(grad, true)
+		t.Tensor.MustData(false).MustAddWithAlpha_(delta, -a.LR)
 		accDelta.MustMul1_(rho)
 		deltaScope := delta.MustMul1(rhoMB1, false)
-		defer deltaScope.MustDrop()
 		accDelta.MustAddcmul_(delta, deltaScope)
+		deltaScope.MustDrop()
+		gradScope.MustDrop()
+		delta.MustDrop()
+		std.MustDrop()
 	}
 }
 

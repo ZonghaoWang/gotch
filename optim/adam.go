@@ -19,7 +19,7 @@ func (a *Adam) Step() {
 		beta2MB1 = ts.FloatScalar(1 - a.Beta2)
 		eps = ts.FloatScalar(a.Eps)
 	})
-	a.BaseOptimizer.Step()
+	a.BaseOptimizer.Step(a.AdamConfig)
 	for name, t := range a.TrainedTensors {
 		grad := t.Tensor.MustGrad(false)
 		defer grad.MustDrop()
@@ -44,15 +44,13 @@ func (a *Adam) Step() {
 		if a.Amsgrad {
 			maxExpAvgSq := a.States[name][2]
 			maxExpAvgSq.MustMaximumOut(maxExpAvgSq, expAvgSq, false)
-			denom = maxExpAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true)
-			denom.MustAdd1_(eps)
+			denom = maxExpAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true).MustAdd1(eps, true)
 		} else {
-			denom = expAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true)
-			denom.MustAdd1_(eps)
+			denom = expAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true).MustAdd1(eps, true)
 		}
 		expAvgScope := expAvg.MustMul1(stepSize, false)
 		defer expAvgScope.MustDrop()
-		t.Tensor.MustAddcdiv_(expAvgScope, denom)
+		t.Tensor.MustData(false).MustAddcdiv_(expAvgScope, denom)
 		denom.MustDrop()
 	}
 }

@@ -1,7 +1,5 @@
 package tensor
 
-
-
 func (t *Tensor)MustAddWithAlpha(other *Tensor, scala float64, del bool) *Tensor {
 	if scala == 1.0 {
 		return t.MustAdd(other, del)
@@ -15,7 +13,7 @@ func (t *Tensor)MustAddWithAlpha(other *Tensor, scala float64, del bool) *Tensor
 
 func (t *Tensor)MustAddWithAlpha_(other *Tensor, scala float64) {
 	if scala == 1.0 {
-		t.MustAdd_(other)
+		t.MustData(false).MustAdd_(other)
 		return
 	}
 	s := FloatScalar(scala)

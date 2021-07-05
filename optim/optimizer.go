@@ -3,6 +3,7 @@ package optim
 // Optimizers from pytorch
 
 import (
+	"github.com/zonghaowang/gotch"
 	"github.com/zonghaowang/gotch/nn"
 	"log"
 	"sync"
@@ -29,6 +30,7 @@ type BaseOptimizer struct {
 	TrainedTensors map[string]nn.Var
 	LR float64
 	StepCount int64
+	device gotch.Device
 }
 
 func (b *BaseOptimizer) StateDict() map[string][]*ts.Tensor {
@@ -55,12 +57,12 @@ func ParseNamedTrainedTensors(vs *nn.VarStore) map[string]nn.Var {
 
 // OptimizerConfig defines Optimizer configurations. These configs can be used to build optimizer.
 type OptimizerConfig interface {
-	Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor, lr float64) Optimizer
+	Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor, lr float64, device gotch.Device) Optimizer
 	GetAssNames() []string
 }
 
-func (c *SGDConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor, lr float64) Optimizer {
-	return &SGD{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, SGDConfig: c}
+func (c *SGDConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor, lr float64, device gotch.Device) Optimizer {
+	return &SGD{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, SGDConfig: c}
 }
 
 func (c *SGDConfig) GetAssNames() []string {
@@ -71,8 +73,8 @@ func (c *SGDConfig) GetAssNames() []string {
 	}
 }
 
-func (c *AdamConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64) Optimizer {
-	return &Adam{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, AdamConfig: c}
+func (c *AdamConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64, device gotch.Device) Optimizer {
+	return &Adam{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, AdamConfig: c}
 }
 
 func (c *AdamConfig) GetAssNames() []string {
@@ -83,8 +85,8 @@ func (c *AdamConfig) GetAssNames() []string {
 	return rst
 }
 
-func (c *AdamWConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64) Optimizer {
-	return &AdamW{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, AdamWConfig: c}
+func (c *AdamWConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64, device gotch.Device) Optimizer {
+	return &AdamW{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, AdamWConfig: c}
 }
 
 func (c *AdamWConfig) GetAssNames() []string {
@@ -95,8 +97,8 @@ func (c *AdamWConfig) GetAssNames() []string {
 	return rst
 }
 
-func (c *RMSPropConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64) Optimizer {
-	return &RMSProp{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, RMSPropConfig: c}
+func (c *RMSPropConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64, device gotch.Device) Optimizer {
+	return &RMSProp{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, RMSPropConfig: c}
 }
 
 func (c *RMSPropConfig) GetAssNames() []string {
@@ -110,16 +112,16 @@ func (c *RMSPropConfig) GetAssNames() []string {
 	return rst
 }
 
-func (c *AdagradConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64) Optimizer {
-	return &Adagrad{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, AdagradConfig: c}
+func (c *AdagradConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64, device gotch.Device) Optimizer {
+	return &Adagrad{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, AdagradConfig: c}
 }
 
 func (c *AdagradConfig) GetAssNames() []string {
 	return []string{"sum"}
 }
 
-func (c *AdadeltaConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64) Optimizer {
-	return &Adadelta{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs)}, AdadeltaConfig: c}
+func (c *AdadeltaConfig) Build(vs *nn.VarStore, stateDict map[string][]*ts.Tensor,  lr float64, device gotch.Device) Optimizer {
+	return &Adadelta{BaseOptimizer: &BaseOptimizer{VS: vs, LR: lr, States: stateDict, TrainedTensors: ParseNamedTrainedTensors(vs), device: device}, AdadeltaConfig: c}
 }
 
 func (c *AdadeltaConfig) GetAssNames() []string {
@@ -308,9 +310,19 @@ func (opt *BaseOptimizer) ZeroGrad() {
 	}
 }
 
-// Step performs an optimization step, updating the tracked tensors based on their gradients.
-func (opt *BaseOptimizer) Step() {
+// Step performs an optimization step, updating the tracked tensors based on their gradints.
+func (opt *BaseOptimizer) Step(config OptimizerConfig) {
 	opt.StepCount++
+	for name, t := range opt.TrainedTensors {
+		if vars, exist := opt.States[name]; !exist || len(vars) != len(config.GetAssNames()) {
+			opt.States[name] = make([]*ts.Tensor, len(config.GetAssNames()))
+			shape := t.Tensor.MustSize()
+			for index := range opt.States[name] {
+				opt.States[name][index] = ts.MustZeros(shape, gotch.Float, opt.device)
+				opt.States[name][index].MustSetRequiresGrad(false, false)
+			}
+		}
+	}
 }
 
 // ResetStepCount set step count to zero.

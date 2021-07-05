@@ -20,11 +20,11 @@ func (a *AdamW) Step() {
 		eps = ts.FloatScalar(a.Eps)
 		paramDecay = ts.FloatScalar(1 - a.LR * a.Wd)
 	})
-	a.BaseOptimizer.Step()
+	a.BaseOptimizer.Step(a.AdamWConfig)
 	for name, t := range a.TrainedTensors {
 		grad := t.Tensor.MustGrad(false)
 		defer grad.MustDrop()
-		t.Tensor.MustMul1_(paramDecay)
+		t.Tensor.MustData(false).MustMul1_(paramDecay)
 
 		expAvg := a.States[name][0]
 		expAvgSq := a.States[name][1]
@@ -47,14 +47,12 @@ func (a *AdamW) Step() {
 		if a.Amsgrad {
 			maxExpAvgSq := a.States[name][2]
 			maxExpAvgSq.MustMaximumOut(maxExpAvgSq, expAvgSq, false)
-			denom = maxExpAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true)
-			denom.MustAdd1_(eps)
+			denom = maxExpAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true).MustAdd1(eps, true)
 		} else {
-			denom = expAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true)
-			denom.MustAdd1_(eps)
+			denom = expAvgSq.MustSqrt(false).MustDiv1(biasCorrection2, true).MustAdd1(eps, true)
 		}
 		expAvgScope := expAvg.MustMul1(stepSize, false)
-		t.Tensor.MustAddcdiv_(expAvgScope, denom)
+		t.Tensor.MustData(false).MustAddcdiv_(expAvgScope, denom)
 		expAvgScope.MustDrop()
 		denom.MustDrop()
 	}

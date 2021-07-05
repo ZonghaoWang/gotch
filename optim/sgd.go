@@ -1,6 +1,8 @@
 package optim
 
-import ts "github.com/zonghaowang/gotch/tensor"
+import (
+	ts "github.com/zonghaowang/gotch/tensor"
+)
 
 type SGD struct {
 	*BaseOptimizer
@@ -9,7 +11,7 @@ type SGD struct {
 
 // Length of State is 1.
 func (s *SGD) Step() {
-	s.BaseOptimizer.Step()
+	s.BaseOptimizer.Step(s.SGDConfig)
 	for name, t := range s.TrainedTensors {
 		grad := t.Tensor.MustGrad(false)
 		defer grad.MustDrop()
@@ -25,10 +27,10 @@ func (s *SGD) Step() {
 		}
 		if s.Nesterov {
 			grad.MustAddWithAlpha_(s.States[name][0], s.Momentum)
-		} else {
+		} else if s.Momentum != 0 {
 			grad.Copy_(s.States[name][0])
 		}
-		t.Tensor.MustAddWithAlpha_(grad, -s.LR)
+		t.Tensor.MustData(false).MustAddWithAlpha_(grad, -s.LR)
 	}
 }
 

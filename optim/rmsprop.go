@@ -19,7 +19,7 @@ func (r *RMSProp) Step() {
 		lr = ts.FloatScalar(r.LR)
 		lrNeg = ts.FloatScalar(-r.LR)
 	})
-	r.BaseOptimizer.Step()
+	r.BaseOptimizer.Step(r.RMSPropConfig)
 	for name, t := range r.TrainedTensors {
 		grad := t.Tensor.MustGrad(false)
 		defer grad.MustDrop()
@@ -42,20 +42,22 @@ func (r *RMSProp) Step() {
 			gradAvg.MustMul1_(alpha)
 			gradAvg.MustAddWithAlpha_(grad, 1 - r.Alpha)
 			gradAvgPow := gradAvg.MustMul(gradAvg, false)
-			avg = squareAvg.MustSub(gradAvgPow, false)
+			avg = squareAvg.MustSub(gradAvgPow, false).MustSqrt(true).MustAdd1(eps, true)
+			gradAvgPow.MustDrop()
 		} else {
-			avg = squareAvg.MustSqrt(false)
-			avg.MustAdd1_(eps)
+			avg = squareAvg.MustSqrt(false).MustSqrt(true).MustAdd1(eps, true)
 		}
 		if r.Momentum > 0 {
 			momentumBuffer.MustMul1_(momentum)
 			momentumBuffer.MustAddcdiv_(grad, avg)
-			t.Tensor.MustAddWithAlpha_(momentumBuffer, -r.LR)
+			t.Tensor.MustData(false).MustAddWithAlpha_(momentumBuffer, -r.LR)
 		} else {
 			gradStep := grad.MustMul1(lrNeg, false)
-			t.Tensor.MustAddcdiv_(gradStep, avg)
+			t.Tensor.MustData(false).MustAddcdiv_(gradStep, avg)
 			gradStep.MustDrop()
 		}
+		avg.MustDrop()
+		gradScope.MustDrop()
 	}
 }
 
