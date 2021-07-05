@@ -8,7 +8,6 @@ if [[ -z "${CUDA_VERSION}"=="cpu" ]]; then
 else
   CU_VERSION="cu${CUDA_VERSION//./}"
 fi
-
 # Libtorch paths
 LIBTORCH_PATH="/usr/local/lib"
 GOTCH_LIBTORCH="$LIBRARY_PATH/libtorch"

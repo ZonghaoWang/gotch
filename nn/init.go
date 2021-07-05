@@ -78,7 +78,7 @@ func (r randnInit) InitTensor(dims []int64, device gotch.Device) (retVal *ts.Ten
 	data := make([]float32, ts.FlattenDim(dims))
 	for i := range data {
 		// NOTE. tensor will have DType = Float (float32)
-		data[i] = float32(rand.NormFloat64()*r.mean + r.stdev)
+		data[i] = float32(rand.NormFloat64()*r.stdev + r.mean)
 	}
 
 	newTs, err := ts.NewTensorFromData(data, dims)
