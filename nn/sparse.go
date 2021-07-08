@@ -40,6 +40,13 @@ func NewEmbedding(vs *Path, numEmbeddings int64, embeddingDim int64, config *Emb
 	}
 }
 
+func NewEmbeddingRaw(t *ts.Tensor, config *EmbeddingConfig) *Embedding {
+	return &Embedding{
+		Ws:     t,
+		config: config,
+	}
+}
+
 // Implement Module, ModuleT interfaces for Embedding:
 // =========================================
 
